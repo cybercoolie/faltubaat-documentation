@@ -1,10 +1,24 @@
-# FaltuBaat
+---
+layout: default
+title: Getting Started
+nav_order: 2
+description: "Getting started with FaltuBaat - Overview, features, and quick start guide"
+permalink: /docs/getting-started/
+---
 
-> 💬 Real-time chat application with video calling and live streaming capabilities
+# Getting Started with FaltuBaat
+{: .no_toc }
 
-[![Node.js](https://img.shields.io/badge/Node.js-20.x-green.svg)](https://nodejs.org/)
-[![Socket.io](https://img.shields.io/badge/Socket.io-4.7-blue.svg)](https://socket.io/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+Real-time chat application with video calling and live streaming capabilities
+{: .fs-6 .fw-300 }
+
+---
+
+## Table of Contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
 
 ---
 
@@ -89,18 +103,18 @@ Choose the deployment method that fits your needs:
 
 | Option | Description | Guide |
 |--------|-------------|-------|
-| **Single Container** | All-in-one container with app + nginx | [docker.md](docker.md#single-container) |
-| **Multi Container** | Separate app and nginx containers | [docker.md](docker.md#multi-container) |
+| **Single Container** | All-in-one container with app + nginx | [Docker Guide](../docker/) |
+| **Multi Container** | Separate app and nginx containers | [Docker Guide](../docker/) |
 
 ### ☁️ AWS Deployments
 
 | Option | Description | Guide |
 |--------|-------------|-------|
-| **EC2 Single** | One EC2 with app + nginx | [ec2.md](ec2.md#-single-ec2-deployment) |
-| **EC2 Multi** | Separate EC2 for app and RTMP | [ec2.md](ec2.md#️️-multi-ec2-deployment) |
-| **ECS Single** | Single Fargate container | [ecs-single-container.md](ecs-single-container.md) |
-| **ECS Multi** | Multi-container Fargate task | [ecs_multi-container.md](ecs_multi-container.md) |
-| **EKS** | Kubernetes on AWS | [eks.md](eks.md) |
+| **EC2 Single** | One EC2 with app + nginx | [EC2 Guide](../ec2/) |
+| **EC2 Multi** | Separate EC2 for app and RTMP | [EC2 Guide](../ec2/) |
+| **ECS Single** | Single Fargate container | [ECS Single](../ecs-single/) |
+| **ECS Multi** | Multi-container Fargate task | [ECS Multi](../ecs-multi/) |
+| **EKS** | Kubernetes on AWS | [EKS Guide](../eks/) |
 
 ### 🌐 Other Cloud Providers
 
@@ -109,6 +123,7 @@ The Docker images are portable and can be deployed on:
 - **GCP**: Cloud Run, GKE, Compute Engine
 - **Any Cloud**: Use the Docker image with your provider's container service
 
+{: .note }
 > 💡 Just push the image to your registry and configure ports (3000, 1935, 8080)
 
 ---
@@ -232,40 +247,15 @@ http://YOUR_SERVER:8080/hls/your-stream-key.m3u8
 
 ---
 
-## 📚 Documentation
-
-| Document | Description |
-|----------|-------------|
-| [docker.md](docker.md) | Docker single & multi-container deployment |
-| [ec2.md](ec2.md) | AWS EC2 single & multi-instance deployment |
-| [ecs-single-container.md](ecs-single-container.md) | AWS ECS Fargate single container |
-| [ecs_multi-container.md](ecs_multi-container.md) | AWS ECS Fargate multi-container |
-| [eks.md](eks.md) | AWS EKS Kubernetes deployment |
-
----
-
 ## 🔒 Security Considerations
+
+{: .warning }
+> Always use HTTPS in production and configure proper security settings.
 
 - **JWT_SECRET**: Use a strong, unique secret in production
 - **HTTPS**: Always use HTTPS in production
 - **Rate Limiting**: Configured by default to prevent abuse
 - **Secrets Management**: Use AWS Secrets Manager, Azure Key Vault, or similar
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
 
 ---
 

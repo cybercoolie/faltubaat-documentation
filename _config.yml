@@ -1,0 +1,65 @@
+title: FaltuBaat Documentation
+description: Real-time chat application with video calling and live streaming capabilities
+baseurl: "/faltubaat-documentation"
+url: ""
+
+# Theme
+remote_theme: just-the-docs/just-the-docs
+
+# Color scheme
+color_scheme: dark
+
+# Logo
+logo: "/assets/images/logo.png"
+
+# Enable search
+search_enabled: true
+search:
+  heading_level: 2
+  previews: 3
+  preview_words_before: 5
+  preview_words_after: 10
+  tokenizer_separator: /[\s/]+/
+  rel_url: true
+  button: false
+
+# Aux links (top right navigation)
+aux_links:
+  "View on GitHub":
+    - "https://github.com/yourusername/faltubaat"
+
+aux_links_new_tab: true
+
+# Footer
+footer_content: "Made with ❤️ by FaltuBaat Team. Distributed under the MIT License."
+
+# Back to top link
+back_to_top: true
+back_to_top_text: "Back to top"
+
+# Enable copy code button
+enable_copy_code_button: true
+
+# Mermaid diagrams (optional)
+mermaid:
+  version: "9.1.6"
+
+# Collections for navigation
+collections:
+  docs:
+    permalink: "/:collection/:path/"
+    output: true
+
+just_the_docs:
+  collections:
+    docs:
+      name: Documentation
+      nav_fold: false
+
+# Exclude from processing
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor

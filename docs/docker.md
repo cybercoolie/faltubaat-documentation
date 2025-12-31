@@ -1,6 +1,26 @@
+---
+layout: default
+title: Docker Deployment
+nav_order: 3
+description: "Docker deployment guide for FaltuBaat - Single and multi-container options"
+permalink: /docs/docker/
+---
+
 # Docker Deployment Guide
+{: .no_toc }
 
 This guide covers Docker deployment options for FaltuBaat - a live chat application with RTMP streaming.
+{: .fs-6 .fw-300 }
+
+---
+
+## Table of Contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Folder Structure
 
@@ -235,7 +255,7 @@ docker exec faltubaat-single npm run init-db
 
 ## Related Documentation
 
-- [EC2 Deployment](ec2.md) - Deploy directly on EC2/VM
-- [ECS Single Container](ecs-single-container.md) - AWS ECS with single container
-- [ECS Multi-Container](ecs_multi-container.md) - AWS ECS with multiple containers
-- [EKS Deployment](eks.md) - Kubernetes on AWS
+- [EC2 Deployment](../ec2/) - Deploy directly on EC2/VM
+- [ECS Single Container](../ecs-single/) - AWS ECS with single container
+- [ECS Multi-Container](../ecs-multi/) - AWS ECS with multiple containers
+- [EKS Deployment](../eks/) - Kubernetes on AWS

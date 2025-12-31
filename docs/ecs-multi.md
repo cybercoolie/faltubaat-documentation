@@ -1,6 +1,26 @@
-# FaltuBaat Multi-Container ECS Deployment
+---
+layout: default
+title: ECS Multi-Container
+nav_order: 6
+description: "AWS ECS Fargate multi-container deployment guide for FaltuBaat"
+permalink: /docs/ecs-multi/
+---
+
+# ECS Multi-Container Deployment
+{: .no_toc }
 
 This deployment runs Node.js and Nginx/RTMP as **separate containers** on AWS ECS, enabling independent scaling and better observability.
+{: .fs-6 .fw-300 }
+
+---
+
+## Table of Contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Architecture
 
@@ -31,6 +51,8 @@ This deployment runs Node.js and Nginx/RTMP as **separate containers** on AWS EC
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
+---
+
 ## Container Communication
 
 Containers in the same ECS task communicate via `localhost` in `awsvpc` network mode.
@@ -39,6 +61,8 @@ However, we use **ECS Service Connect** to provide DNS-based discovery (`chat-ap
 - Works if you scale to multiple tasks
 - Provides service mesh capabilities
 - Enables traffic routing
+
+---
 
 ## Prerequisites
 
@@ -69,6 +93,8 @@ However, we use **ECS Service Connect** to provide DNS-based discovery (`chat-ap
    aws logs create-log-group --log-group-name /ecs/faltubaat/nginx-rtmp --region YOUR_REGION
    ```
 8. **JWT Secret in Secrets Manager** (see below)
+
+---
 
 ## JWT Secret Setup
 
@@ -129,7 +155,10 @@ The secret is referenced in `task-definition.json` for the `chat-app` container:
 ]
 ```
 
+{: .note }
 > **Note**: ECS automatically fetches the secret at container startup. The app never sees the Secrets Manager ARN, only the actual secret value.
+
+---
 
 ## S3 Database Storage (Optional - For Testing)
 
@@ -161,8 +190,10 @@ Set these environment variables for the `chat-app` container:
 | Every 5 minutes | Sync DB to S3 |
 | Container stop | Upload final DB state |
 
-⚠️ **Production Warning**: Use EFS for production. S3 sync may lose recent data on crashes.
-   ```
+{: .warning }
+> ⚠️ **Production Warning**: Use EFS for production. S3 sync may lose recent data on crashes.
+
+---
 
 ## Configuration
 
@@ -182,6 +213,8 @@ Update in `service-definition.json`:
 | `sg-XXXXXXXXX` | Security Group ID |
 | Target Group ARNs | Your ALB/NLB target groups |
 
+---
+
 ## Deployment
 
 ```bash
@@ -193,6 +226,8 @@ export AWS_ACCOUNT_ID=123456789012
 ./deploy.sh
 ```
 
+---
+
 ## Security Group Rules
 
 | Type | Port | Source | Purpose |
@@ -202,6 +237,8 @@ export AWS_ACCOUNT_ID=123456789012
 | Inbound | 1935 | 0.0.0.0/0 | RTMP streaming input |
 | Inbound | 8080 | ALB SG | HLS stream output |
 | Inbound | 2049 | VPC CIDR | EFS mount |
+
+---
 
 ## Scaling
 
@@ -221,6 +258,8 @@ aws application-autoscaling register-scalable-target \
   --max-capacity 10
 ```
 
+---
+
 ## Advantages over Single-Container
 
 | Feature | Multi-Container | Single-Container |
@@ -230,3 +269,12 @@ aws application-autoscaling register-scalable-target \
 | Resource Control | ✅ Per container | ⚠️ Shared |
 | Failure Isolation | ✅ Independent | ⚠️ Coupled |
 | Updates | ✅ Independent | ⚠️ Full redeploy |
+
+---
+
+## Related Documentation
+
+- [Docker Deployment](../docker/) - Container-based deployment
+- [EC2 Deployment](../ec2/) - Deploy directly on EC2/VM
+- [ECS Single Container](../ecs-single/) - AWS ECS single container
+- [EKS Deployment](../eks/) - Kubernetes on AWS

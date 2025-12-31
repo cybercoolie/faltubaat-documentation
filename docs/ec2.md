@@ -1,26 +1,28 @@
-# FaltuBaat - EC2/VM Deployment Guide
+---
+layout: default
+title: EC2 Deployment
+nav_order: 4
+description: "AWS EC2/VM deployment guide for FaltuBaat - Single and multi-instance options"
+permalink: /docs/ec2/
+---
 
-> 💬 Real-time chat application with video calling and live streaming capabilities
+# EC2/VM Deployment Guide
+{: .no_toc }
+
+Deploy FaltuBaat on AWS EC2 instances with native service management.
+{: .fs-6 .fw-300 }
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
+{: .no_toc .text-delta }
 
-- [Deployment Options](#-deployment-options)
-- [Single EC2 Deployment](#-single-ec2-deployment)
-- [Multi EC2 Deployment](#-multi-ec2-deployment)
-- [Configuration](#-configuration)
-- [Service Management](#-service-management)
-- [Security Setup](#-security-setup)
-- [SSL Certificates](#-ssl-certificates)
-- [Streaming Guide](#-streaming-guide)
-- [Troubleshooting](#-troubleshooting)
-- [Updating the Application](#-updating-the-application)
-- [Uninstallation](#-uninstallation)
+1. TOC
+{:toc}
 
 ---
 
-## 🎯 Deployment Options
+## Deployment Options
 
 Choose based on your scale and requirements:
 
@@ -52,7 +54,7 @@ Choose based on your scale and requirements:
 
 ---
 
-## 📌 Prerequisites
+## Prerequisites
 
 ### Supported Operating Systems
 
@@ -84,11 +86,11 @@ Choose based on your scale and requirements:
 
 ---
 
-# 🖥️ Single EC2 Deployment
+## Single EC2 Deployment
 
 Deploy FaltuBaat on a single EC2 instance with Node.js and Nginx/RTMP running as native services.
 
-## Architecture
+### Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -112,7 +114,7 @@ Deploy FaltuBaat on a single EC2 instance with Node.js and Nginx/RTMP running as
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Files
+### Files
 
 | File | Purpose |
 |------|---------|
@@ -120,7 +122,7 @@ Deploy FaltuBaat on a single EC2 instance with Node.js and Nginx/RTMP running as
 | `deploy/ec2/single-ec2/ec2-uninstall.sh` | Remove application completely |
 | `deploy/ec2/single-ec2/nginx-ec2.conf` | Nginx configuration |
 
-## Security Group
+### Security Group
 
 | Port | Protocol | Source | Description |
 |------|----------|--------|-------------|
@@ -130,16 +132,16 @@ Deploy FaltuBaat on a single EC2 instance with Node.js and Nginx/RTMP running as
 | 1935 | TCP | 0.0.0.0/0 | RTMP Streaming |
 | 8080 | TCP | 0.0.0.0/0 | HLS Streams |
 
-## Installation
+### Installation
 
-### Step 1: Connect to EC2
+#### Step 1: Connect to EC2
 
 ```bash
 ssh -i your-key.pem ec2-user@your-ec2-ip    # Amazon Linux
 ssh -i your-key.pem ubuntu@your-ec2-ip       # Ubuntu
 ```
 
-### Step 2: Upload Application Files
+#### Step 2: Upload Application Files
 
 From your local machine:
 ```bash
@@ -150,7 +152,7 @@ scp -i your-key.pem -r ./* ec2-user@your-ec2-ip:~/faltubaat/
 rsync -avz -e "ssh -i your-key.pem" ./ ec2-user@your-ec2-ip:~/faltubaat/
 ```
 
-### Step 3: Run Installation
+#### Step 3: Run Installation
 
 ```bash
 cd ~/faltubaat/deploy/ec2/single-ec2
@@ -167,7 +169,7 @@ The script will:
 - Initialize the database
 - Start all services
 
-### Step 4: Access Your Application
+#### Step 4: Access Your Application
 
 | Service | URL |
 |---------|-----|
@@ -178,11 +180,11 @@ The script will:
 
 ---
 
-# 🖥️🖥️ Multi EC2 Deployment
+## Multi EC2 Deployment
 
 Deploy FaltuBaat across **two EC2 instances** for better performance, scaling, and fault isolation.
 
-## Architecture
+### Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -212,7 +214,7 @@ Deploy FaltuBaat across **two EC2 instances** for better performance, scaling, a
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Why Multi-EC2?
+### Why Multi-EC2?
 
 | Aspect | Single EC2 | Multi-EC2 |
 |--------|------------|-----------|
@@ -230,14 +232,7 @@ Deploy FaltuBaat across **two EC2 instances** for better performance, scaling, a
 | App Server | t3.small/medium | General purpose, handles chat & DB |
 | RTMP Server | c5.large/xlarge | Compute optimized for video encoding |
 
-## Files
-
-| File | Purpose |
-|------|---------|
-| `deploy/ec2/multi-ec2/install-app-server.sh` | Install Node.js app on App Server |
-| `deploy/ec2/multi-ec2/install-rtmp-server.sh` | Install Nginx RTMP on RTMP Server |
-
-## Security Groups
+### Security Groups
 
 **App Server Security Group:**
 
@@ -256,17 +251,18 @@ Deploy FaltuBaat across **two EC2 instances** for better performance, scaling, a
 | 1935 | TCP | 0.0.0.0/0 | RTMP Streaming |
 | 8080 | TCP | 0.0.0.0/0 | HLS Streams |
 
+{: .warning }
 > ⚠️ Both instances should be in the same VPC for private network communication.
 
-## Installation
+### Installation
 
-### Step 1: Launch EC2 Instances
+#### Step 1: Launch EC2 Instances
 
 1. Launch **App Server** EC2 (t3.small, Amazon Linux 2023 or Ubuntu)
 2. Launch **RTMP Server** EC2 (c5.large, Amazon Linux 2023 or Ubuntu)
 3. Note the **Private IP** of each instance
 
-### Step 2: Install App Server
+#### Step 2: Install App Server
 
 ```bash
 # SSH to App Server
@@ -283,7 +279,7 @@ sudo ./install-app-server.sh
 # When prompted, enter the RTMP server's PRIVATE IP
 ```
 
-### Step 3: Install RTMP Server
+#### Step 3: Install RTMP Server
 
 ```bash
 # SSH to RTMP Server
@@ -299,7 +295,7 @@ sudo ./install-rtmp-server.sh
 # When prompted, enter the App server's PRIVATE IP
 ```
 
-### Step 4: Verify Connection
+#### Step 4: Verify Connection
 
 ```bash
 # On RTMP server, test callback to App server
@@ -308,33 +304,9 @@ curl http://APP_PRIVATE_IP:3000/
 # Should return HTML or a response from the app
 ```
 
-## Scaling Multi-EC2
-
-### Scale App Servers
-
-For more chat capacity:
-1. Launch more App Server EC2s
-2. Put behind an **Application Load Balancer (ALB)**
-3. Use **RDS** or **ElastiCache** instead of SQLite
-
-### Scale RTMP Servers
-
-For more streaming capacity:
-1. Launch more RTMP Server EC2s
-2. Put behind a **Network Load Balancer (NLB)**
-3. Use shared storage (EFS) for HLS files
-
-### Cost Optimization
-
-| Configuration | Monthly Estimate |
-|---------------|------------------|
-| t3.small (App) + c5.large (RTMP) | ~$80-100 |
-| t3.micro (App) + c5.xlarge (RTMP) | ~$100-130 |
-| Reserved instances (1 year) | 30-40% savings |
-
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 ### File Locations
 
@@ -374,28 +346,9 @@ After editing, restart the service:
 sudo systemctl restart faltubaat
 ```
 
-### Multi-EC2 Configuration Changes
-
-**Change App Server IP (on RTMP Server):**
-```bash
-sudo nano /etc/nginx/nginx.conf
-# Update the on_publish URLs
-
-sudo nginx -t
-sudo systemctl restart nginx
-```
-
-**Change RTMP Server IP (on App Server):**
-```bash
-sudo nano /opt/faltubaat/.env
-# Update RTMP_SERVER variable
-
-sudo systemctl restart faltubaat
-```
-
 ---
 
-## 🎛️ Service Management
+## Service Management
 
 ### Application Service
 
@@ -419,7 +372,7 @@ sudo systemctl restart faltubaat
 
 ---
 
-## 🔒 Security Setup
+## Security Setup
 
 ### AWS Security Group Configuration
 
@@ -455,7 +408,7 @@ sudo ufw reload
 
 ---
 
-## 🔐 SSL Certificates
+## SSL Certificates
 
 ### Using Let's Encrypt (Recommended for Production)
 
@@ -482,7 +435,7 @@ echo "0 0 1 * * certbot renew --quiet && systemctl restart faltubaat" | sudo tee
 
 ---
 
-## 📺 Streaming Guide
+## Streaming Guide
 
 ### How to Start a Live Stream
 
@@ -519,7 +472,7 @@ http://YOUR_EC2_IP:8080/hls/test.m3u8
 
 ---
 
-## 🔍 Troubleshooting
+## Troubleshooting
 
 ### Application Won't Start
 
@@ -569,16 +522,6 @@ sudo chmod 755 /opt/faltubaat
 sudo chmod 755 /var/www/html/hls
 ```
 
-### HLS Files Not Created
-
-```bash
-# Check HLS directory
-ls -la /var/www/html/hls/
-
-# Ensure Nginx can write
-sudo chmod 777 /var/www/html/hls
-```
-
 ### Database Issues
 
 ```bash
@@ -593,27 +536,9 @@ sudo -u faltubaat npm run init-db
 sudo chown -R faltubaat:faltubaat /opt/faltubaat/data
 ```
 
-### Multi-EC2: Stream Callbacks Not Working
-
-```bash
-# On RTMP server, check nginx logs
-sudo tail -f /var/log/nginx/error.log
-
-# On RTMP server, test connectivity to App server
-curl -v http://APP_PRIVATE_IP:3000/stream/start
-
-# Check security group allows traffic between instances
-```
-
-### Connection Timeout
-
-1. Check EC2 Security Group allows the port
-2. Check instance firewall (firewalld/ufw)
-3. Verify service is running: `sudo systemctl status faltubaat`
-
 ---
 
-## 🔄 Updating the Application
+## Updating the Application
 
 ### Quick Update
 
@@ -649,7 +574,7 @@ sudo systemctl start faltubaat
 
 ---
 
-## 🗑️ Uninstallation
+## Uninstallation
 
 ### Single EC2
 
@@ -677,21 +602,11 @@ sudo userdel faltubaat
 sudo systemctl daemon-reload
 ```
 
-Note: Nginx is not removed. To remove:
-```bash
-sudo yum remove nginx     # Amazon Linux
-sudo apt remove nginx     # Ubuntu
-```
-
 ---
 
-## 📚 Related Documentation
+## Related Documentation
 
-- [Docker Deployment](docker.md) - Container-based deployment
-- [ECS Single Container](ecs-single-container.md) - AWS ECS single container
-- [ECS Multi Container](ecs_multi-container.md) - AWS ECS multi container
-- [EKS Deployment](eks.md) - Kubernetes deployment
-
----
-
-**Made with ❤️ by FaltuBaat Team**
+- [Docker Deployment](../docker/) - Container-based deployment
+- [ECS Single Container](../ecs-single/) - AWS ECS single container
+- [ECS Multi Container](../ecs-multi/) - AWS ECS multi container
+- [EKS Deployment](../eks/) - Kubernetes deployment

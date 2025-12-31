@@ -1,6 +1,26 @@
-# FaltuBaat Single-Container ECS Deployment
+---
+layout: default
+title: ECS Single Container
+nav_order: 5
+description: "AWS ECS Fargate single container deployment guide for FaltuBaat"
+permalink: /docs/ecs-single/
+---
 
-This deployment runs Node.js + Nginx/RTMP in a single container on AWS ECS.
+# ECS Single-Container Deployment
+{: .no_toc }
+
+This deployment runs Node.js + Nginx/RTMP in a single container on AWS ECS Fargate.
+{: .fs-6 .fw-300 }
+
+---
+
+## Table of Contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Architecture
 
@@ -28,6 +48,8 @@ This deployment runs Node.js + Nginx/RTMP in a single container on AWS ECS.
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+---
+
 ## Prerequisites
 
 1. **AWS CLI** configured with appropriate credentials
@@ -42,6 +64,8 @@ This deployment runs Node.js + Nginx/RTMP in a single container on AWS ECS.
    ```
 5. **EFS File System** for persistent storage (or use S3 for testing)
 6. **JWT Secret in Secrets Manager** (see below)
+
+---
 
 ## JWT Secret Setup
 
@@ -102,7 +126,10 @@ The secret is referenced in `task-definition.json`:
 ]
 ```
 
+{: .note }
 > **Note**: ECS automatically fetches the secret at container startup. The app never sees the Secrets Manager ARN, only the actual secret value.
+
+---
 
 ## Configuration
 
@@ -113,6 +140,15 @@ Update the following in `task-definition.json`:
 | `YOUR_ACCOUNT_ID` | Your AWS Account ID |
 | `YOUR_REGION` | AWS Region (e.g., us-east-1) |
 | `fs-XXXXXXXXX` | EFS File System ID |
+
+Update in `service-definition.json`:
+
+| Placeholder | Description |
+|-------------|-------------|
+| `subnet-XXXXXXXXX` | VPC Subnet IDs |
+| `sg-XXXXXXXXX` | Security Group ID |
+
+---
 
 ## S3 Database Storage (Optional - For Testing)
 
@@ -145,22 +181,15 @@ Update environment variables:
 }
 ```
 
-### 4. Remove EFS Volume (Optional)
-For testing without EFS, remove the `app-data` volume and mount point.
-
 ### How It Works
 - **On startup**: Downloads database from S3 (if exists)
 - **Every 5 min**: Syncs database to S3
 - **On shutdown**: Uploads final database state
 
-⚠️ **Warning**: S3 sync is for testing only. Use EFS for production (data consistency).
+{: .warning }
+> ⚠️ **Warning**: S3 sync is for testing only. Use EFS for production (data consistency).
 
-Update in `service-definition.json`:
-
-| Placeholder | Description |
-|-------------|-------------|
-| `subnet-XXXXXXXXX` | VPC Subnet IDs |
-| `sg-XXXXXXXXX` | Security Group ID |
+---
 
 ## Deployment
 
@@ -173,6 +202,8 @@ export AWS_ACCOUNT_ID=123456789012
 ./deploy.sh
 ```
 
+---
+
 ## Security Group Rules
 
 | Type | Port | Source | Purpose |
@@ -183,11 +214,23 @@ export AWS_ACCOUNT_ID=123456789012
 | Inbound | 8080 | ALB SG | HLS streams |
 | Inbound | 2049 | VPC CIDR | EFS mount |
 
+---
+
 ## Limitations
+
+{: .warning }
+> Consider using the **multi-container** deployment for production workloads.
 
 - ⚠️ Single health check for both processes
 - ⚠️ Cannot scale Node.js and Nginx independently
 - ⚠️ Mixed CloudWatch logs
 - ⚠️ If Nginx crashes, container may stay "healthy"
 
-For production, consider using the **multi-container** deployment instead.
+---
+
+## Related Documentation
+
+- [Docker Deployment](../docker/) - Container-based deployment
+- [EC2 Deployment](../ec2/) - Deploy directly on EC2/VM
+- [ECS Multi-Container](../ecs-multi/) - AWS ECS multi-container (recommended)
+- [EKS Deployment](../eks/) - Kubernetes on AWS

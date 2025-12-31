@@ -1,4 +1,26 @@
-# FaltuBaat Kubernetes Deployment Guide
+---
+layout: default
+title: EKS Deployment
+nav_order: 7
+description: "AWS EKS Kubernetes deployment guide for FaltuBaat"
+permalink: /docs/eks/
+---
+
+# EKS Kubernetes Deployment Guide
+{: .no_toc }
+
+Deploy FaltuBaat on AWS Elastic Kubernetes Service (EKS) for production-grade container orchestration.
+{: .fs-6 .fw-300 }
+
+---
+
+## Table of Contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Prerequisites
 
@@ -7,6 +29,8 @@
 3. **AWS Load Balancer Controller** - Installed in cluster
 4. **EFS CSI Driver** - For persistent storage
 5. **ECR Repository** - For Docker images
+
+---
 
 ## Files Overview
 
@@ -24,6 +48,36 @@
 | `service-rtmp.yaml` | RTMP load balancer service |
 | `ingress.yaml` | ALB Ingress (optional, for HTTPS) |
 | `hpa.yaml` | Auto-scaling configuration |
+
+---
+
+## Architecture
+
+```
+                    Internet
+                        │
+            ┌───────────┴───────────┐
+            │                       │
+        ┌───▼───┐               ┌───▼───┐
+        │  ALB  │               │  NLB  │
+        │ (443) │               │(1935) │
+        └───┬───┘               └───┬───┘
+            │                       │
+    ┌───────▼───────┐       ┌───────▼───────┐
+    │   App Pods    │       │   RTMP Pods   │
+    │  (Node.js)    │◄──────│  (Nginx)      │
+    │   x2-10       │       │    x1-5       │
+    └───────┬───────┘       └───────┬───────┘
+            │                       │
+            └───────────┬───────────┘
+                        │
+                    ┌───▼───┐
+                    │  EFS  │
+                    │(Data) │
+                    └───────┘
+```
+
+---
 
 ## Step-by-Step Deployment
 
@@ -96,31 +150,7 @@ After getting the NLB URL for RTMP, update your frontend to point to:
 - **RTMP Ingest**: `rtmp://<NLB-URL>:1935/live`
 - **HLS Playback**: `http://<NLB-URL>:8080/hls`
 
-## Architecture
-
-```
-                    Internet
-                        │
-            ┌───────────┴───────────┐
-            │                       │
-        ┌───▼───┐               ┌───▼───┐
-        │  ALB  │               │  NLB  │
-        │ (443) │               │(1935) │
-        └───┬───┘               └───┬───┘
-            │                       │
-    ┌───────▼───────┐       ┌───────▼───────┐
-    │   App Pods    │       │   RTMP Pods   │
-    │  (Node.js)    │◄──────│  (Nginx)      │
-    │   x2-10       │       │    x1-5       │
-    └───────┬───────┘       └───────┬───────┘
-            │                       │
-            └───────────┬───────────┘
-                        │
-                    ┌───▼───┐
-                    │  EFS  │
-                    │(Data) │
-                    └───────┘
-```
+---
 
 ## Monitoring
 
@@ -135,6 +165,8 @@ kubectl logs -f deployment/faltubaat-rtmp -n faltubaat
 # Check HPA status
 kubectl get hpa -n faltubaat
 ```
+
+---
 
 ## Troubleshooting
 
@@ -155,8 +187,19 @@ kubectl get pvc -n faltubaat
 kubectl describe pvc faltubaat-data-pvc -n faltubaat
 ```
 
+---
+
 ## Cleanup
 
 ```bash
 kubectl delete -f .
 ```
+
+---
+
+## Related Documentation
+
+- [Docker Deployment](../docker/) - Container-based deployment
+- [EC2 Deployment](../ec2/) - Deploy directly on EC2/VM
+- [ECS Single Container](../ecs-single/) - AWS ECS single container
+- [ECS Multi-Container](../ecs-multi/) - AWS ECS multi-container
