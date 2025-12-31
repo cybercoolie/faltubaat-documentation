@@ -162,10 +162,10 @@ faltubaat/
 
 ```bash
 # Clone the repository
-git clone https://github.com/faltudeploy/faltubaat.git
+git clone https://github.com/faltubaatdeploy/faltubaat.git
 
 # Run with Docker Compose
-cd faltubaat/deploy/docker/single-container
+cd faltubaatdeploy/deploy/docker/single-container
 docker-compose up -d
 
 # Access the app
