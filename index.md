@@ -104,7 +104,7 @@ The Docker images are portable and can be deployed on:
 
 ```bash
 # Clone the repository
-git clone https://github.com/faltudeploy/faltubaat.git
+git clone https://github.com/faltubaatdeploy/faltubaat.git
 
 # Run with Docker Compose
 cd faltubaat/deploy/docker/single-container
