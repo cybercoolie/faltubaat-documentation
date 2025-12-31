@@ -12,7 +12,7 @@ permalink: /
 Real-time chat application with video calling and live streaming capabilities.
 {: .fs-6 .fw-300 }
 
-[Get Started](/faltubaat-documentation/docs/getting-started/){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Get Started]({{ site.baseurl }}/docs/getting-started/){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [View on GitHub](https://github.com/yourusername/faltubaat){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
@@ -75,18 +75,18 @@ Choose the deployment method that fits your needs:
 
 | Option | Description | Guide |
 |--------|-------------|-------|
-| **Single Container** | All-in-one container with app + nginx | [Docker Guide](/faltubaat-documentation/docs/docker/) |
-| **Multi Container** | Separate app and nginx containers | [Docker Guide](/faltubaat-documentation/docs/docker/) |
+| **Single Container** | All-in-one container with app + nginx | [Docker Guide]({{ site.baseurl }}/docs/docker/) |
+| **Multi Container** | Separate app and nginx containers | [Docker Guide]({{ site.baseurl }}/docs/docker/) |
 
 ### ☁️ AWS Deployments
 
 | Option | Description | Guide |
 |--------|-------------|-------|
-| **EC2 Single** | One EC2 with app + nginx | [EC2 Guide](/faltubaat-documentation/docs/ec2/) |
-| **EC2 Multi** | Separate EC2 for app and RTMP | [EC2 Guide](/faltubaat-documentation/docs/ec2/) |
-| **ECS Single** | Single Fargate container | [ECS Single](/faltubaat-documentation/docs/ecs-single/) |
-| **ECS Multi** | Multi-container Fargate task | [ECS Multi](/faltubaat-documentation/docs/ecs-multi/) |
-| **EKS** | Kubernetes on AWS | [EKS Guide](/faltubaat-documentation/docs/eks/) |
+| **EC2 Single** | One EC2 with app + nginx | [EC2 Guide]({{ site.baseurl }}/docs/ec2/) |
+| **EC2 Multi** | Separate EC2 for app and RTMP | [EC2 Guide]({{ site.baseurl }}/docs/ec2/) |
+| **ECS Single** | Single Fargate container | [ECS Single]({{ site.baseurl }}/docs/ecs-single/) |
+| **ECS Multi** | Multi-container Fargate task | [ECS Multi]({{ site.baseurl }}/docs/ecs-multi/) |
+| **EKS** | Kubernetes on AWS | [EKS Guide]({{ site.baseurl }}/docs/eks/) |
 
 ### 🌐 Other Cloud Providers
 
@@ -141,12 +141,12 @@ open http://localhost:3000
 
 | Document | Description |
 |----------|-------------|
-| [Getting Started](/faltubaat-documentation/docs/getting-started/) | Overview, features, and quick start |
-| [Docker](/faltubaat-documentation/docs/docker/) | Docker single & multi-container deployment |
-| [EC2](/faltubaat-documentation/docs/ec2/) | AWS EC2 single & multi-instance deployment |
-| [ECS Single Container](/faltubaat-documentation/docs/ecs-single/) | AWS ECS Fargate single container |
-| [ECS Multi-Container](/faltubaat-documentation/docs/ecs-multi/) | AWS ECS Fargate multi-container |
-| [EKS](/faltubaat-documentation/docs/eks/) | AWS EKS Kubernetes deployment |
+| [Getting Started]({{ site.baseurl }}/docs/getting-started/) | Overview, features, and quick start |
+| [Docker]({{ site.baseurl }}/docs/docker/) | Docker single & multi-container deployment |
+| [EC2]({{ site.baseurl }}/docs/ec2/) | AWS EC2 single & multi-instance deployment |
+| [ECS Single Container]({{ site.baseurl }}/docs/ecs-single/) | AWS ECS Fargate single container |
+| [ECS Multi-Container]({{ site.baseurl }}/docs/ecs-multi/) | AWS ECS Fargate multi-container |
+| [EKS]({{ site.baseurl }}/docs/eks/) | AWS EKS Kubernetes deployment |
 
 ---
 

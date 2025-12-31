@@ -1,7 +1,7 @@
 title: FaltuBaat Documentation
 description: Real-time chat application with video calling and live streaming capabilities
 baseurl: "/faltubaat-documentation"
-url: ""
+url: "https://cybercoolie.github.io"
 
 # Theme
 remote_theme: just-the-docs/just-the-docs
@@ -10,7 +10,7 @@ remote_theme: just-the-docs/just-the-docs
 color_scheme: dark
 
 # Logo
-logo: "/assets/images/logo.png"
+logo: "/assets/images/logo.svg"
 
 # Enable search
 search_enabled: true
@@ -26,7 +26,7 @@ search:
 # Aux links (top right navigation)
 aux_links:
   "View on GitHub":
-    - "https://github.com/yourusername/faltubaat"
+    - "https://github.com/cybercoolie/faltubaat-documentation"
 
 aux_links_new_tab: true
 
